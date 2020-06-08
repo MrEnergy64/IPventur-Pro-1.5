@@ -9,7 +9,7 @@ clear
 # Add network which you like to scan
 echo ""
 echo "****************************"
-echo "* IPventur-English Pro 1.0 *"
+echo "* IPventur-English Pro 1.1 *"
 echo "****************************"
 echo ""
 echo "Which network would you like to scan (e.g. 192.168.1.0/24 [Enter]): "
@@ -70,6 +70,7 @@ netO=$net2
 echo "Network items $datum / $netw" > lanlist-$netO-$date3.txt
 echo "--------------------------------------------------------------" >> lanlist-$netO-$date3.txt
 echo Start: $date2 $CHOICE Net/IP = $netw  >> lanlist-$netO-$date3.txt
+echo "--------------------------------------------------------------" >> lanlist-$netO-$date3.txt
 echo "--------------------------------------------------------------"
 
 # Scan network and log to the output file, fping checks online IP's only
