@@ -69,6 +69,7 @@ netO=$net2
 # Begin creation output file
 echo "Network items $datum / $netw" > lanlist-$netO-$date3.txt
 echo "--------------------------------------------------------------" >> lanlist-$netO-$date3.txt
+echo Start: $date2 $CHOICE Net/IP = $netw  >> lanlist-$netO-$date3.txt
 echo "--------------------------------------------------------------"
 
 # Scan network and log to the output file, fping checks online IP's only
@@ -84,7 +85,7 @@ done
 echo "-------------------------------------------------------"
 echo "              E N D" >> lanlist-$netO-$date3.txt
 echo
-datum=$(date +%d.%m.%Y-%H:%M:%S)
+date2=$(date +%d.%m.%Y-%H:%M:%S)
 echo $date2 >> lanlist-$netO-$date3.txt
 echo "-------------------------------------------------------" >> lanlist-$netO-$date3.txt
 echo End: $date2
