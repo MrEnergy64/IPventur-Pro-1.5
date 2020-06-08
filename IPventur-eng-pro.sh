@@ -4,7 +4,6 @@
 # updated: 08.06.2020 MrEnergy64 origin: Linux-User
 # Version: 1.1
 #
-# Start without parameter - exit
 clear
 # Add network which you like to scan
 echo ""
