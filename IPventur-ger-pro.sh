@@ -62,7 +62,7 @@ echo
 # aktuelles Startdatum und Uhrzeit wird der Ausgangsdatei hinzugefügt
 datum=$(date +%d.%m.%Y-%H:%M:%S)
 datum2=$(date +%d%m%Y)
-echo $datum $AUSWAHL Netz/IP = $netw
+echo Start: $datum $AUSWAHL Netz/IP = $netw
 netz2=$(echo $netw | cut -d "/" -f 1)
 netz=$netz2
 echo
