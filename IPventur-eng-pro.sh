@@ -1,25 +1,31 @@
 #! /bin/sh
-# IPventur.sh
+# IPventur.sh Pro
 # need root rights, fping and nmap
 # updated: 08.06.2020 MrEnergy64 origin: Linux-User
-# Version: 0.6
+# Version: 1.1
 #
 # Start without parameter - exit
 clear
-if [ -z $1 ]; then
-	echo 
-	echo "NETWORK/CIDR (e.g. 192.168.0.0/24) is needed!"
-	echo "(Example: sudo ./IPventur-eng-06.sh 10.0.0.0/23 [Enter])"
-	exit
-fi
+# Add network which you like to scan
+echo ""
+echo "****************************"
+echo "* IPventur-English Pro 1.0 *"
+echo "****************************"
+echo ""
+echo "Which network would you like to scan (e.g. 192.168.1.0/24 [Enter]): "
+echo ""
+read netw
 clear
 # Menu to choice nmap parameters
 clear
 echo ""
-echo "* IPventur-English Pro 1.0 *"
+echo " Scan Network: $netw"
+echo ""
+echo "****************************"
+echo "* IPventur-English Pro 1.1 *"
 echo "****************************"
 echo ""
-echo " choice NMAP Scan Version (1,2,3,4 [Enter]): "
+echo " choice NMAP Scan Version (1,2,3,4,5 [Enter]): "
 echo ""
 echo "  1) NMAP -A 			(intensive scan with OS/Service version, traceroute etc. with DNS resolve)"
 echo "  2) NMAP -n -A 		(intensive scan with OS/Service version, traceroute etc. without DNS resolve)"
@@ -31,6 +37,7 @@ read n
 clear
 echo ""
 case $n in
+# here you can change the namp parameters
   1) echo " Choice: NMAP -A"; CHOICE="nmap -A";;
   2) echo " Choice: NMAP -n -A"; CHOICE="nmap -n -A";;
   3) echo " Choice: NMAP -6"; CHOICE="nmap -6";;
@@ -55,17 +62,17 @@ echo "--------------------------------------------------------------"
 echo
 date2=$(date +%d.%m.%Y-%H:%M:%S)
 date3=$(date +%d%m%Y)
-echo Start: $date2 $CHOICE Net/IP = $1
+echo Start: $date2 $CHOICE Net/IP = $netw
 echo
-net2=$(echo $1 | cut -d "/" -f 1)
+net2=$(echo $netw | cut -d "/" -f 1)
 netO=$net2
 # Begin creation output file
-echo "Network items $datum / $1" > lanlist-$netO-$date3.txt
+echo "Network items $datum / $netw" > lanlist-$netO-$date3.txt
 echo "--------------------------------------------------------------" >> lanlist-$netO-$date3.txt
 echo "--------------------------------------------------------------"
 
 # Scan network and log to the output file, fping checks online IP's only
-for k in $(fping -aq -g $1); do
+for k in $(fping -aq -g $netw); do
 	echo "scanning...: $k"
 	echo "Online: $k" >> lanlist-$netO-$date3.txt
 # -n Never do DNS resolution resolve, -sP check if IP up and give MAC address with Vendor
