@@ -67,7 +67,7 @@ netz2=$(echo $netw | cut -d "/" -f 1)
 netz=$netz2
 echo
 # Beginn Ergebnisdatei
-echo "-------------------------------------------------------" >> lanliste-$netz-$datum2.txt
+echo "-------------------------------------------------------" > lanliste-$netz-$datum2.txt
 echo "Netzwerkbestand $datum / $netw" > lanliste-$netz-$datum2.txt
 echo "-------------------------------------------------------" >> lanliste-$netz-$datum2.txt
 echo "-------------------------------------------------------"
