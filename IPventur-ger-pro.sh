@@ -1,22 +1,26 @@
 #! /bin/sh
-# IPventur.sh
+# IPventur-Pro.sh
 # benötigt root rechte, sowie fping und nmap
 # updated: 08.06.2020 MrEnergy64 origin: Linux-User
-# Version: 0.6
+# Version: 1.1
 #
-# Bei Aufruf ohne Parameter abbrechen
 clear
-if [ -z $1 ]; then
-	echo
-	echo "NETZADRESSE/Subnetmask muss beim Aufruf angegeben werden!"
-	echo "(Beispiel: sudo ./IPventur-ger-06.sh 10.0.0.0/23 [Enter])"
-	exit
-fi
+# füge das zu überprüfende Netzwerk hinzu
+echo ""
+echo "****************************"
+echo "* IPventur-Deutsch Pro 1.1 *"
+echo "****************************"
+echo ""
+echo "Welches Netzwerk soll gescannt werden (z.B. 192.168.1.0/24 [Enter]): "
+echo ""
+read netw
 # Menü für Parameterübergabe an NMAP
 clear
 echo ""
+echo " Scan Netzwerk: $netw"
+echo ""
 echo "****************************"
-echo "* IPventur-Deutsch Pro 1.0 *"
+echo "* IPventur-Deutsch Pro 1.1 *"
 echo "****************************"
 echo ""
 echo " wählen Sie eine NMAP Scan Version aus (1,2,3,4 [Enter]): "
@@ -58,17 +62,18 @@ echo
 # aktuelles Startdatum und Uhrzeit wird der Ausgangsdatei hinzugefügt
 datum=$(date +%d.%m.%Y-%H:%M:%S)
 datum2=$(date +%d%m%Y)
-echo $datum $AUSWAHL Netz/IP = $1
-netz2=$(echo $1 | cut -d "/" -f 1)
+echo $datum $AUSWAHL Netz/IP = $netw
+netz2=$(echo $netw | cut -d "/" -f 1)
 netz=$netz2
 echo
 # Beginn Ergebnisdatei
-echo "Netzwerkbestand $datum / $1" > lanliste-$netz-$datum2.txt
+echo "-------------------------------------------------------" >> lanliste-$netz-$datum2.txt
+echo "Netzwerkbestand $datum / $netw" > lanliste-$netz-$datum2.txt
 echo "-------------------------------------------------------" >> lanliste-$netz-$datum2.txt
 echo "-------------------------------------------------------"
 
 # Scannen des Netztes und Ablage in Ergebnisdatei, fping stellt fest welche IP Online ist
-for k in $(fping -aq -g $1); do
+for k in $(fping -aq -g $netw); do
 	echo "wird untersucht: $k"
 	echo "Aktiv: $k" >> lanliste-$netz-$datum2.txt
 # -n startet kein IP DNS Namen check (nur IP Adresse), -sP zeigt IP Adresse mit MAC Adresse und Hersteller ID
