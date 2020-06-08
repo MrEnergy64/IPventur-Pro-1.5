@@ -66,9 +66,8 @@ echo
 net2=$(echo $netw | cut -d "/" -f 1)
 netO=$net2
 # Begin creation output file
-echo "Network items $datum / $netw" > lanlist-$netO-$date3.txt
 echo "--------------------------------------------------------------" >> lanlist-$netO-$date3.txt
-echo Start: $date2 $CHOICE Net/IP = $netw  >> lanlist-$netO-$date3.txt
+echo "Network items $date2 / $netw" > lanlist-$netO-$date3.txt
 echo "--------------------------------------------------------------" >> lanlist-$netO-$date3.txt
 echo "--------------------------------------------------------------"
 
