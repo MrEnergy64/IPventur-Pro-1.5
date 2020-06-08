@@ -1,5 +1,5 @@
-# IPventur-Pro-1.0
-famous little IPventur.sh tool, now with menu to choice nmap parameters and the output file includes scanned network and scanned date
+# IPventur-Pro-1.1
+famous little IPventur.sh tool, now with menu to choice nmap parameters, asking for the scan network and the output file includes scanned network and scanned date
 
 1. download script file IPventur-eng-pro.sh (english version) or IPventur-ger-pro.sh (german version)
 2. chmod +x IPventur-eng-pro.sh (or chmod +x IPventur-ger-pro.sh)
