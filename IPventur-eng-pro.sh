@@ -95,8 +95,10 @@ echo Start: $date2 $CHOICE $CHOICE2 Net/IP = $netw
 echo
 net2=$(echo $netw | cut -d "/" -f 1)
 netO=$net2
+echo Start: $date2 $CHOICE $CHOICE2 Net/IP = $netw > lanlist-$netO-$date3.txt
+echo ""
 # Begin creation output file
-echo "----------------------------------------------------------------" > lanlist-$netO-$date3.txt
+echo "----------------------------------------------------------------" >> lanlist-$netO-$date3.txt
 echo "Network items $date2 / $netw" > lanlist$CHOICE2-$netO-$date3.txt
 echo "----------------------------------------------------------------" >> lanlist-$netO-$date3.txt
 echo "----------------------------------------------------------------"
@@ -112,7 +114,7 @@ for k in $(fping -aq -g $netw); do
 echo "----------------------------------------------------------------" >> lanlist-$netO-$date3.txt
 done
 echo "----------------------------------------------------------------"
-echo "              E N D" >> lanlist-$netO-$date3.txt
+echo "                            E N D" >> lanlist-$netO-$date3.txt
 echo
 date2=$(date +%d.%m.%Y-%H:%M:%S)
 echo $date2 >> lanlist-$netO-$date3.txt
