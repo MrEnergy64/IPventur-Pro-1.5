@@ -31,7 +31,7 @@ echo "  2) NMAP -v -A -p1-65535	(intensive scan with OS/Service version, tracero
 echo "  3) NMAP -6			(standard scan with IPv6)"
 echo "  4) NMAP -F -T5		(fast scan, some standard ports only)"
 echo "  5) NMAP without switches 	(standard scan with open ports)"
-echo "  6) NMAP -d9			(debug scan with highest, could be very long scan!)"
+echo "  6) NMAP -d9			(debug scan with highest level, could be very long scan!)"
 echo ""
 read n
 clear
