@@ -1,6 +1,6 @@
 #! /bin/sh
 # IPventur.sh Pro
-# need root rights, fping and nmap
+# recommend root rights, need fping and nmap
 # updated: 09.06.2020 MrEnergy64 origin: Linux-User
 # Version: 1.2
 #
@@ -37,7 +37,7 @@ clear
 echo ""
 case $n in
 # here you can change the namp parameters
-  1) echo " Choice: NMAP -R -A"; CHOICE="nmap -R --system-dns -A";;
+  1) echo " Choice: NMAP -R -A"; CHOICE="nmap -R -A";;
   2) echo " Choice: NMAP -n -A"; CHOICE="nmap -n -A";;
   3) echo " Choice: NMAP -6"; CHOICE="nmap -6";;
   4) echo " Choice: NMAP -F -T5"; CHOICE="nmap -F -T5";;
@@ -110,7 +110,7 @@ for k in $(fping -aq -g $netw); do
 # -n Never do DNS resolution resolve, -sP check if IP up and give MAC address with Vendor
 	nmap -n -sP $k | awk '/Nmap scan report for/{printf $5;}/MAC Address:/{print " => "$3" "$4" "$5;}' | sort >> lanlist-$netO-$date3.txt
 # second nmap command with your choiced parameters 
-	$CHOICE $k --append-output $CHOICE2 lanlist$CHOICE2-$netO-$date3.txt | grep -B1 open >> lanlist-$netO-$date3.txt
+	$CHOICE $k --append-output $CHOICE2 lanlist$CHOICE2-$netO-$date3 | grep -B1 open >> lanlist-$netO-$date3.txt
 echo "----------------------------------------------------------------" >> lanlist-$netO-$date3.txt
 done
 echo "----------------------------------------------------------------"
