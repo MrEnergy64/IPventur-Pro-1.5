@@ -109,7 +109,9 @@ for k in $(fping -aq -g $netw); do
 	echo "Online: $k" >> lanlist-$netO-$date3.txt
 # -n Never do DNS resolution resolve, -sP check if IP up and give MAC address with Vendor
 	nmap -n -sP $k | awk '/Nmap scan report for/{printf $5;}/MAC Address:/{print " => "$3" "$4" "$5;}' | sort >> lanlist-$netO-$date3.txt
-# second nmap command with your choiced parameters 
+# second nmap command with your choiced parameters
+	$CHOICE $k | grep -B1 open >> lanlist-$netO-$date3.txt
+# now with your choiced output format
 	$CHOICE $k --append-output $CHOICE2 lanlist$CHOICE2-$netO-$date3 | grep -B1 open >> lanlist-$netO-$date3.txt
 echo "----------------------------------------------------------------" >> lanlist-$netO-$date3.txt
 done
