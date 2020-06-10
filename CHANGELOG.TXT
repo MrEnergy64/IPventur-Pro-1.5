@@ -11,5 +11,6 @@ Version 1.2 Pro - choice menu for output formats -oN, -oS or -oG, two files are 
             script is now restarting when you pressed wrong keys during the choice menu, minor style changes
 
 Version 1.3 Pro - now with full output format (includes -oA), some grep changes (to the MAC adresse, you will
-           get IP and DNS name now) and some minor style changes
+           get IP and DNS name now) and some minor style changes, change put for formated output to /dev/null, so that the
+           output is not in the normal output file and the scan is not visible on the main screen
            
