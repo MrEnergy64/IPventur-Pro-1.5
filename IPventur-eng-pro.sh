@@ -27,7 +27,7 @@ echo ""
 echo "choice NMAP Scan Version (1,2,3,4,5,6 [Enter]): "
 echo ""
 echo "  1) NMAP -A 			(intensive scan with OS/Service version 1000 ports), traceroute etc.)"
-echo "  2) NMAP -v -A -p1-65535	(intensive scan with OS/Service version, traceroute etc. more details and all ports)"
+echo "  2) NMAP -v -A -p1-65535	(intensive long scan with OS/Service version, traceroute etc. more details and all ports)"
 echo "  3) NMAP -6			(standard scan with IPv6)"
 echo "  4) NMAP -F -T5		(fast scan, some standard ports only)"
 echo "  5) NMAP without switches 	(standard scan with open ports)"
@@ -118,8 +118,8 @@ for k in $(fping -aq -g $netw); do
 	nmap -R -sP $k | awk '/Nmap scan report for/{printf $5" "$6;}/MAC Address:/{print " => "$3" "$4" "$5" "$6;}' | sort >> lanlist-$netO-$date3.txt
 # second nmap command with your choiced parameters 
 	$CHOICE $k | grep -B1 open >> lanlist-$netO-$date3.txt
-# now with your choiced output format
-	$CHOICE $k --append-output $CHOICE2 lanlist$CHOICE2-$netO-$date3 >> lanlist-$netO-$date3.txt
+# now with your choiced output format, to /dev/null to make scan no visible and add the scan not to the normal file
+	$CHOICE $k --append-output $CHOICE2 lanlist$CHOICE2-$netO-$date3 >> /dev/null
 echo "----------------------------------------------------------------" >> lanlist-$netO-$date3.txt
 done
 echo "----------------------------------------------------------------"
