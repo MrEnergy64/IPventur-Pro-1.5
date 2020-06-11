@@ -1,37 +1,47 @@
-#! /bin/sh
+#! /bin/bash
 # IPventur-Pro.sh
 # benötigt root rechte, sowie fping und nmap
-# updated: 09.06.2020 MrEnergy64 origin: Linux-User
-# Version: 1.3
+# updated: 11.06.2020 MrEnergy64 origin: Linux-User
+# Version: 1.4
 #
 clear
 # füge das zu überprüfende Netzwerk hinzu
 echo ""
 echo "****************************"
-echo "* IPventur-Deutsch Pro 1.3 *"
+echo "* IPventur-Deutsch Pro 1.4 *"
 echo "***************************"
 echo ""
-echo "Welches Netzwerk soll gescannt werden (z.B. 192.168.1.0/24 [Enter]): "
+echo "Welches Netzwerk soll gescannt werden (z.B. 192.168.1.0/24 oder 192.168.111.1/32 [Enter]): "
 echo ""
 read netw
+# check ob eine IP Adresse vorhanden ist und gültig
+if [[ -z $netw ]]; then
+	clear; echo ""; echo "Keine IP Adresse vorhanden, starte Script erneut....";sleep 3; exec "./IPventur-ger-pro.sh"
+fi
+if [[ $netw =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/[0-9]{1,2}$ ]]; then
+	clear; echo ""; echo "Valide IP Adresse"
+else
+	clear;  echo ""; echo "$netw ist keine valide IP Adresse/Subnet mask, starte script erneut....";sleep 3; exec "./IPventur-ger-pro.sh"
+fi
 # Menü für Parameterübergabe an NMAP
-clear
-echo ""
 echo ""
 echo "****************************"
-echo "* IPventur-Deutsch Pro 1.3 *"
+echo "* IPventur-Deutsch Pro 1.4 *"
 echo "****************************"
 echo ""
 echo "Scanne Netzwerk: $netw"
 echo ""
-echo "wählen Sie eine NMAP Scan Version aus (1,2,3,4,5,6 [Enter]): "
+echo "wählen Sie eine NMAP Scan Version aus (1,2,3,4,5,6,7 [Enter]): "
 echo ""
 echo "  1) NMAP -A 			(intensiver Scan mit OS/Service Version (1000 ports), Traceroute etc.)"
-echo "  2) NMAP -v -A -p1-65535	(größere Ausführlichkeit, intensiver langer Scan, alle Ports)"
+echo "  2) NMAP -v -A -p1-65535	(größere Ausführlichkeit, intensiver Scan, alle Ports)"
 echo "  3) NMAP -6 			(Standard Scan mit IPv6)"
 echo "  4) NMAP -F -T5 		(schnellster Scan, aber nur Standard Ports)"
 echo "  5) NMAP ohne Parameter 	(Standard Scan mit offenen Ports)"
 echo "  6) NMAP -d9			(Debug mit höster Stufe, kann sehr lange dauern!)"
+echo "  7) NMAP -sV --script 		(Scanne mit Script)"
+echo "				(Check wo die Scripts liegen (locate *.nse): ~/.nmap/scripts oder /usr/share/nmap/scripts)"
+echo "				(Update neue NSE NMAP Scripts: sudo nmap --script-updatedb)"
 echo ""
 read n
 clear
@@ -44,13 +54,14 @@ case $n in
   4) echo " Auswahl: NMAP -F -T5"; AUSWAHL="nmap -F -T5";;
   5) echo "Auswahl: NMAP"; AUSWAHL="nmap";;
   6) echo "Auswahl: NMAP -d9"; AUSWAHL="nmap -d9";;
+  7) echo "Auswahl: NMAP -sv --script"; echo ""; echo "Scanne Netzwerk: $netw";echo "";read -p "Whelches Script soll benutzt werden (z.B vulners etc.)?  => " nms; AUSWAHL="nmap -sV --script $nms";;
   *) echo "ungültige Auswahl, starte Script neu....";sleep 3; exec "./IPventur-ger-pro.sh";;
 esac
 # Wähle das Ausgabeformat
 clear
 echo ""
 echo "****************************"
-echo "* IPventur-English Pro 1.3 *"
+echo "* IPventur-English Pro 1.4 *"
 echo "****************************"
 echo ""
 echo "Scanne Netzwerk: $netw"
@@ -100,28 +111,29 @@ echo
 # aktuelles Startdatum und Uhrzeit wird der Ausgangsdatei hinzugefügt
 datum=$(date +%d.%m.%Y-%H:%M:%S)
 datum2=$(date +%d%m%Y)
-echo Start: $datum $AUSWAHL $AUSWAHL2 Netz/IP = $netw
+echo Start: $datum
+echo Kommando:  $AUSWAHL $AUSWAHL2 $netw
 netz2=$(echo $netw | cut -d "/" -f 1)
 netz=$netz2
-echo Start: $datum $AUSWAHL $AUSWAHL2 Netz/IP = $netw > lanliste-$netz-$datum2.txt
+echo Start: $datum > lanliste-$netz-$datum2.txt
+echo Kommando: $AUSWAHL $AUSWAHL2 $netw >> lanliste-$netz-$datum2.txt
 echo ""
 # Beginn Ergebnisdatei
 echo "------------------------------------------------------------" >> lanliste-$netz-$datum2.txt
 echo "Netzwerkbestand $datum / $netw" > lanliste-$netz-$datum2.txt
 echo "------------------------------------------------------------" >> lanliste-$netz-$datum2.txt
 echo "------------------------------------------------------------"
-
+echo "" >> lanliste-$netz-$datum2.txt
 # Scannen des Netztes und Ablage in Ergebnisdatei, fping stellt fest welche IP Online ist
 for k in $(fping -aq -g $netw); do
 	echo "wird untersucht: $k"
 	echo "Aktiv: $k" >> lanliste-$netz-$datum2.txt
 # -n startet IP DNS Namen check und IP Adresse, -sP zeigt IP Adresse mit MAC Adresse und Hersteller ID
-	nmap -R -sP $k | awk '/Nmap scan report for/{printf $5" "$6;}/MAC Address:/{print " => "$3" "$4" "$5;}' | sort >> lanliste-$netz-$datum2.txt
+	nmap -R -sP $k | awk '/Nmap scan report for/{printf $5" "$6;}/MAC Address:/{print " => "$3" "$4" "$5" "$6;}' | sort >> lanliste-$netz-$datum2.txt
 # -A zeigt mehr Informationen wie OS Version, Traceroute, welche Scripts laufen etc.
 	$AUSWAHL $k | grep -B1 open >> lanliste-$netz-$datum2.txt
-# zweiter nmap command mit gewähltem Ausgabeforma, nach /dev/null damit das Ergebnis nicht zu normalen Ausgabedatei
-# hinzugefügt wird, dann damit der Scan nicht sichtbar ist.
-	$AUSWAHL $k --append-output $AUSWAHL2 lanliste$AUSWAHL2-$netz-$datum2 >> /dev/null
+# zweiter nmap command mit gewähltem Ausgabeformat 
+	$AUSWAHL $k --append-output $AUSWAHL2 lanliste$AUSWAHL2-$netz-$datum2 >> lanliste-$netz-$datum2.txt
 	echo "---------------------------------------------------" >> lanliste-$netz-$datum2.txt
 echo >> lanliste-$netz-$datum2.txt
 done
