@@ -1,56 +1,67 @@
-#! /bin/sh
+#! /bin/bash
 # IPventur.sh Pro
 # recommend root rights, need fping and nmap
-# updated: 09.06.2020 MrEnergy64 origin: Linux-User
-# Version: 1.3
+# updated: 11.06.2020 MrEnergy64 origin: Linux-User
+# Version: 1.4
 #
 clear
 # Add network which you like to scan
 echo ""
 echo "****************************"
-echo "* IPventur-English Pro 1.3 *"
+echo "* IPventur-English Pro 1.4 *"
 echo "****************************"
 echo ""
-echo "Which network would you like to scan (e.g. 192.168.1.0/24 [Enter]): "
+echo "Which network would you like to scan (e.g. 192.168.1.0/24 or 10.0.0.1/32 [Enter]): "
 echo ""
 read netw
-clear
+# check if entered IP exist and valid
+if [[ -z $netw ]]; then
+	clear; echo ""; echo "no IP address, starting script again....";sleep 3; exec "./IPventur-eng-pro.sh"
+fi
+if [[ $netw =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/[0-9]{1,2}$ ]]; then
+	clear; echo ""; echo "Valid IP address"
+else
+	clear;  echo ""; echo "$netw is not a valid IP address/subnet mask, starting script again....";sleep 3; exec "./IPventur-eng-pro.sh"
+fi
 # Menu to choice nmap parameters
-clear
 echo ""
 echo "****************************"
-echo "* IPventur-English Pro 1.3 *"
+echo "* IPventur-English Pro 1.4 *"
 echo "****************************"
 echo ""
 echo "Scan Network: $netw"
 echo ""
-echo "choice NMAP Scan Version (1,2,3,4,5,6 [Enter]): "
+echo "choice NMAP Scan Version (1,2,3,4,5,6,7 [Enter]): "
 echo ""
 echo "  1) NMAP -A 			(intensive scan with OS/Service version 1000 ports), traceroute etc.)"
-echo "  2) NMAP -v -A -p1-65535	(intensive long scan with OS/Service version, traceroute etc. more details and all ports)"
+echo "  2) NMAP -v -A -p1-65535	(intensive scan with OS/Service version, traceroute etc. more details and all ports)"
 echo "  3) NMAP -6			(standard scan with IPv6)"
 echo "  4) NMAP -F -T5		(fast scan, some standard ports only)"
 echo "  5) NMAP without switches 	(standard scan with open ports)"
-echo "  6) NMAP -d9			(debug scan with highest level, could be very long scan!)"
+echo "  6) NMAP -d9			(debug scan with highest, could be very long scan!)"
+echo "  7) NMAP -sV --script 		(scan with your entered script)"
+echo "				(Check where your scripts are (locate *.nse): ~/.nmap/scripts or /usr/share/nmap/scripts)"
+echo "				(Update new NSE NMAP scripts: sudo nmap --script-updatedb)"
 echo ""
 read n
 clear
 echo ""
 case $n in
 # here you can change the namp parameters
-  1) echo " Choice: NMAP -A"; CHOICE="nmap -A";;
-  2) echo " Choice: NMAP -v -A -p1-65535"; CHOICE="nmap -v -A -p1-65535";;
-  3) echo " Choice: NMAP -6"; CHOICE="nmap -6";;
-  4) echo " Choice: NMAP -F -R"; CHOICE="nmap -F -R";;
-  5) echo " Choice: NMAP"; CHOICE="nmap";;
-  6) echo " Choice: NMAP -d9"; CHOICE="nmap -d9";;
+  1) echo "Choice: NMAP -A"; CHOICE="nmap -A";;
+  2) echo "Choice: NMAP -v -A -p1-65535"; CHOICE="nmap -v -A -p1-65535";;
+  3) echo "Choice: NMAP -6"; CHOICE="nmap -6";;
+  4) echo "Choice: NMAP -F -R"; CHOICE="nmap -F -R";;
+  5) echo "Choice: NMAP"; CHOICE="nmap";;
+  6) echo "Choice: NMAP -d9"; CHOICE="nmap -d9";;
+  7) echo "Choice: NMAP -sv --script"; echo ""; echo "Scan Network: $netw";echo "";read -p "Which script would you like to use (type e.g. vulners etc.) => " nms; CHOICE="nmap -sV --script $nms";;
   *) echo "invalide option, starting script again....";sleep 3; exec "./IPventur-eng-pro.sh";;
 esac
 # Menu to choice output format
 clear
 echo ""
 echo "****************************"
-echo "* IPventur-English Pro 1.3 *"
+echo "* IPventur-English Pro 1.4 *"
 echo "****************************"
 echo ""
 echo "Scan Network: $netw"
@@ -98,11 +109,13 @@ echo "----------------------------------------------------------------"
 echo
 date2=$(date +%d.%m.%Y-%H:%M:%S)
 date3=$(date +%d%m%Y)
-echo Start: $date2 $CHOICE $CHOICE2 Net/IP = $netw
+echo Start: $date2
+echo Command: $CHOICE $CHOICE2 $netw
 echo
 net2=$(echo $netw | cut -d "/" -f 1)
 netO=$net2
-echo Start: $date2 $CHOICE $CHOICE2 Net/IP = $netw > lanlist-$netO-$date3.txt
+echo Start: $date2 > lanlist-$netO-$date3.txt
+echo Command:  $CHOICE $CHOICE2 $netw >> lanlist-$netO-$date3.txt
 echo ""
 # Begin creation output file
 echo "----------------------------------------------------------------" >> lanlist-$netO-$date3.txt
@@ -118,7 +131,7 @@ for k in $(fping -aq -g $netw); do
 	nmap -R -sP $k | awk '/Nmap scan report for/{printf $5" "$6;}/MAC Address:/{print " => "$3" "$4" "$5" "$6;}' | sort >> lanlist-$netO-$date3.txt
 # second nmap command with your choiced parameters 
 	$CHOICE $k | grep -B1 open >> lanlist-$netO-$date3.txt
-# now with your choiced output format, to /dev/null to make scan no visible and add the scan not to the normal file
+# now with your choiced output format
 	$CHOICE $k --append-output $CHOICE2 lanlist$CHOICE2-$netO-$date3 >> /dev/null
 echo "----------------------------------------------------------------" >> lanlist-$netO-$date3.txt
 done
