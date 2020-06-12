@@ -11,6 +11,7 @@ echo "****************************"
 echo -e "* \e[44mIPventur-English Pro 1.4c\e[49m *"
 echo "****************************"
 echo ""
+# check if fping and nmap installed
 command -v fping >/dev/null 2>&1 || { echo -e >&2 "I require \e[40m\e[33mfping\e[49m\e[39m but it's not installed.  Please install."; exit 1; }
 echo -e "Program \e[40m\e[33mfping\e[49m\e[39m is installed!"
 echo
@@ -96,10 +97,6 @@ case $n in
   *) echo "invalide option, starting script again....";sleep 3; exec "./IPventur-eng-pro.sh";;
 esac
 clear
-echo "----------------------------------------------------------------"
-# check if fping and nmap installed
-echo "----------------------------------------------------------------"
-echo
 echo ""
 echo "****************************"
 echo -e "* \e[44mIPventur-English Pro 1.4c\e[49m *"
