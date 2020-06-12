@@ -7,9 +7,9 @@
 clear
 # Add network which you like to scan
 echo ""
-echo "****************************"
+echo "*****************************"
 echo -e "* \e[44mIPventur-English Pro 1.4c\e[49m *"
-echo "****************************"
+echo "*****************************"
 echo ""
 # check if fping and nmap installed
 command -v fping >/dev/null 2>&1 || { echo -e >&2 "I require \e[40m\e[33mfping\e[49m\e[39m but it's not installed.  Please install."; exit 1; }
@@ -33,9 +33,9 @@ else
 fi
 # Menu to choice nmap parameters
 echo ""
-echo "****************************"
+echo "*****************************"
 echo -e "* \e[44mIPventur-English Pro 1.4c\e[49m *"
-echo "****************************"
+echo "*****************************"
 echo ""
 echo -e "Scan Network: \e[40m\e[33m$netw\e[49m\e[39m "
 echo ""
@@ -68,9 +68,9 @@ esac
 # Menu to choice output format
 clear
 echo ""
-echo "****************************"
+echo "*****************************"
 echo -e "* \e[44mIPventur-English Pro 1.4c\e[49m *"
-echo "****************************"
+echo "*****************************"
 echo ""
 echo -e "Scan Network: \e[40m\e[33m$netw\e[49m\e[39m "
 echo -e "NMAP Command: \e[40m\e[33m$CHOICE\e[49m\e[39m "
@@ -98,9 +98,9 @@ case $n in
 esac
 clear
 echo ""
-echo "****************************"
+echo "*****************************"
 echo -e "* \e[44mIPventur-English Pro 1.4c\e[49m *"
-echo "****************************"
+echo "*****************************"
 echo
 echo -e "Scan Network:  \e[40m\e[33m$netw\e[49m\e[39m "
 echo -e "NMAP Command:  \e[40m\e[33m$CHOICE\e[49m\e[39m "
