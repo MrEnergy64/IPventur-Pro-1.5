@@ -97,6 +97,8 @@ case $n in
   *) echo "invalide option, starting script again....";sleep 3; exec "./IPventur-eng-pro.sh";;
 esac
 clear
+echo "----------------------------------------------------------------"
+echo "----------------------------------------------------------------"
 echo ""
 echo "*****************************"
 echo -e "* \e[44mIPventur-English Pro 1.4c\e[49m *"
