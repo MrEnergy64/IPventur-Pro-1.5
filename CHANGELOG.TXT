@@ -17,4 +17,7 @@ Version 1.3 Pro - now with full output format (includes -oA), some grep changes 
 Version 1.4 Pro - now with IP address/subnet check routine
             - added parameter menu to use scripts
             - some minor style changes
+
+Version 1.4c Pro - moved the fping/nmap check to the beginning
+            - added a little bit of color for a better overview
            
