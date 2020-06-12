@@ -1,15 +1,22 @@
 #! /bin/bash
 # IPventur.sh Pro
 # recommend root rights, need fping and nmap
-# updated: 11.06.2020 MrEnergy64 origin: Linux-User
-# Version: 1.4
+# updated: 12.06.2020 MrEnergy64 origin: Linux-User
+# Version: 1.4c
 #
 clear
 # Add network which you like to scan
 echo ""
 echo "****************************"
-echo "* IPventur-English Pro 1.4 *"
+echo -e "* \e[44mIPventur-English Pro 1.4c\e[49m *"
 echo "****************************"
+echo ""
+command -v fping >/dev/null 2>&1 || { echo -e >&2 "I require \e[40m\e[33mfping\e[49m\e[39m but it's not installed.  Please install."; exit 1; }
+echo -e "Program \e[40m\e[33mfping\e[49m\e[39m is installed!"
+echo
+command -v nmap >/dev/null 2>&1 || { echo -e >&2 "I require \e[40m\e[33mnmap\e[49m\e[39m but it's not installed.  Please install."; exit 1; }
+echo -e "Program \e[40m\e[33mnmap\e[49m\e[39m  is installed!"
+echo ""
 echo ""
 echo "Which network would you like to scan (e.g. 192.168.1.0/24 or 10.0.0.1/32 [Enter]): "
 echo ""
@@ -26,20 +33,20 @@ fi
 # Menu to choice nmap parameters
 echo ""
 echo "****************************"
-echo "* IPventur-English Pro 1.4 *"
+echo -e "* \e[44mIPventur-English Pro 1.4c\e[49m *"
 echo "****************************"
 echo ""
-echo "Scan Network: $netw"
+echo -e "Scan Network: \e[40m\e[33m$netw\e[49m\e[39m "
 echo ""
 echo "choice NMAP Scan Version (1,2,3,4,5,6,7 [Enter]): "
 echo ""
-echo "  1) NMAP -A 			(intensive scan with OS/Service version 1000 ports), traceroute etc.)"
-echo "  2) NMAP -v -A -p1-65535	(intensive scan with OS/Service version, traceroute etc. more details and all ports)"
-echo "  3) NMAP -6			(standard scan with IPv6)"
-echo "  4) NMAP -F -T5		(fast scan, some standard ports only)"
-echo "  5) NMAP without switches 	(standard scan with open ports)"
-echo "  6) NMAP -d9			(debug scan with highest, could be very long scan!)"
-echo "  7) NMAP -sV --script 		(scan with your entered script)"
+echo -e "  \e[40m\e[33m1)\e[49m\e[39m NMAP -A 			(intensive scan with OS/Service version 1000 ports), traceroute etc.)"
+echo -e "  \e[40m\e[33m2)\e[49m\e[39m NMAP -v -A -p1-65535	(intensive scan with OS/Service version, traceroute etc. more details and all ports)"
+echo -e "  \e[40m\e[33m3)\e[49m\e[39m NMAP -6			(standard scan with IPv6)"
+echo -e "  \e[40m\e[33m4)\e[49m\e[39m NMAP -F -T5		(fast scan, some standard ports only)"
+echo -e "  \e[40m\e[33m5)\e[49m\e[39m NMAP without switches 	(standard scan with open ports)"
+echo -e "  \e[40m\e[33m6)\e[49m\e[39m NMAP -d9			(debug scan with highest, could be very long scan!)"
+echo -e "  \e[40m\e[33m7)\e[49m\e[39m NMAP -sV --script 		(scan with your entered script)"
 echo "				(Check where your scripts are (locate *.nse): ~/.nmap/scripts or /usr/share/nmap/scripts)"
 echo "				(Update new NSE NMAP scripts: sudo nmap --script-updatedb)"
 echo ""
@@ -54,26 +61,26 @@ case $n in
   4) echo "Choice: NMAP -F -R"; CHOICE="nmap -F -R";;
   5) echo "Choice: NMAP"; CHOICE="nmap";;
   6) echo "Choice: NMAP -d9"; CHOICE="nmap -d9";;
-  7) echo "Choice: NMAP -sv --script"; echo ""; echo "Scan Network: $netw";echo "";read -p "Which script would you like to use (type e.g. vulners etc.) => " nms; CHOICE="nmap -sV --script $nms";;
+  7) echo -e "Choice: \e[40m\e[33m$NMAP -sv --script\e[49m\e[39m "; echo ""; echo -e "Scan Network: \e[40m\e[33m$netw\e[49m\e[39m ";echo "";read -p "Which script would you like to use (type e.g. vulners etc.) => " nms; CHOICE="nmap -sV --script $nms";;
   *) echo "invalide option, starting script again....";sleep 3; exec "./IPventur-eng-pro.sh";;
 esac
 # Menu to choice output format
 clear
 echo ""
 echo "****************************"
-echo "* IPventur-English Pro 1.4 *"
+echo -e "* \e[44mIPventur-English Pro 1.4c\e[49m *"
 echo "****************************"
 echo ""
-echo "Scan Network: $netw"
-echo "NMAP Command: $CHOICE"
+echo -e "Scan Network: \e[40m\e[33m$netw\e[49m\e[39m "
+echo -e "NMAP Command: \e[40m\e[33m$CHOICE\e[49m\e[39m "
 echo ""
 echo "choice NMAP output format (1,2,3,4,5 [Enter]): "
 echo ""
-echo "  1) -oN 			(Output scan in normal)"
-echo "  2) -oS 			(Output scan in s|<rIpt kIddi3)"
-echo "  3) -oG 			(Output scan in grepable format)"
-echo "  4) -oX			(Output scan in XML format - need to be re-edit)"
-echo "  5) -oA			(Output scan in all formats)"
+echo -e "  \e[40m\e[33m1)\e[49m\e[39m -oN 			(Output scan in normal)"
+echo -e "  \e[40m\e[33m2)\e[49m\e[39m -oS 			(Output scan in s|<rIpt kIddi3)"
+echo -e "  \e[40m\e[33m3)\e[49m\e[39m -oG 			(Output scan in grepable format)"
+echo -e "  \e[40m\e[33m4)\e[49m\e[39m -oX			(Output scan in XML format - need to be re-edit)"
+echo -e "  \e[40m\e[33m5)\e[49m\e[39m -oA			(Output scan in all formats)"
 echo ""
 echo "Note: you will get two files (except no. 5): normal output and one whith your choice!"
 echo ""
@@ -93,15 +100,14 @@ echo "----------------------------------------------------------------"
 # check if fping and nmap installed
 echo "----------------------------------------------------------------"
 echo
-command -v fping >/dev/null 2>&1 || { echo >&2 "I require fping but it's not installed.  Please install."; exit 1; }
-echo "Program fping is installed!"
-echo
-command -v nmap >/dev/null 2>&1 || { echo >&2 "I require nmap but it's not installed.  Please install."; exit 1; }
-echo "Program nmap is installed!"
 echo ""
-echo "Scan Network:  $netw"
-echo "NMAP Command:  $CHOICE"
-echo "Output Format: $CHOICE2"
+echo "****************************"
+echo -e "* \e[44mIPventur-English Pro 1.4c\e[49m *"
+echo "****************************"
+echo
+echo -e "Scan Network:  \e[40m\e[33m$netw\e[49m\e[39m "
+echo -e "NMAP Command:  \e[40m\e[33m$CHOICE\e[49m\e[39m "
+echo -e  "Output Format: \e[40m\e[33m$CHOICE2\e[49m\e[39m "
 echo ""
 echo "Overview active network systems:"
 echo "(to get MAC addresses, you must be in the same net as root/sudo)"
@@ -109,8 +115,8 @@ echo "----------------------------------------------------------------"
 echo
 date2=$(date +%d.%m.%Y-%H:%M:%S)
 date3=$(date +%d%m%Y)
-echo Start: $date2
-echo Command: $CHOICE $CHOICE2 $netw
+echo -e "Start:   \e[40m\e[33m$date2\e[49m\e[39m "
+echo -e "Command: \e[40m\e[33m$CHOICE $CHOICE2 $netw\e[49m\e[39m "
 echo
 net2=$(echo $netw | cut -d "/" -f 1)
 netO=$net2
@@ -125,7 +131,7 @@ echo "----------------------------------------------------------------"
 echo ""  >> lanlist-$netO-$date3.txt
 # Scan network and log to the output file, fping checks online IP's only
 for k in $(fping -aq -g $netw); do
-	echo "scanning...: $k"
+	echo -e "scanning...: \e[40m$k\e[49m\e[39m "
 	echo "Online: $k" >> lanlist-$netO-$date3.txt
 # -n Never do DNS resolution resolve, -sP check if IP up and give MAC address with Vendor
 	nmap -R -sP $k | awk '/Nmap scan report for/{printf $5" "$6;}/MAC Address:/{print " => "$3" "$4" "$5" "$6;}' | sort >> lanlist-$netO-$date3.txt
