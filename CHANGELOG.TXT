@@ -20,4 +20,6 @@ Version 1.4 Pro - now with IP address/subnet check routine
 
 Version 1.4c Pro - moved the fping/nmap check to the beginning
             - added a little bit of color for a better overview
-           
+            
+Version 1.5 Pro - new design
+            - supporting IPv6 now
