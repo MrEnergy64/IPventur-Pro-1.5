@@ -1,43 +1,57 @@
 #! /bin/bash
 # IPventur-Pro.sh
 # benötigt root rechte, sowie fping und nmap
-# updated: 12.06.2020 MrEnergy64 origin: Linux-User
-# Version: 1.4c
+# updated: 13.06.2020 MrEnergy64 origin: Linux-User
+# Version: 1.5
 #
 clear
 # füge das zu überprüfende Netzwerk hinzu
 echo ""
-echo "*****************************"
-echo -e "* \e[44mIPventur-Deutsch Pro 1.4c\e[49m *"
-echo "*****************************"
+echo "----------------------------------------------------------------"
+echo "               ****************************"
+echo -e "               * \e[44mIPventur-Deutsch Pro 1.5\e[49m *"
+echo "               ****************************"
+echo "----------------------------------------------------------------"
 echo ""
+
 # Überprüfe ob fping und nmap vorhanden ist
-echo 
-command -v fping >/dev/null 2>&1 || { echo -e >&2 "Programm \e[40m\e[33mfping\e[49m\e[39m ist nicht installiert!  Bitte installieren."; exit 1; }
+echo command -v fping >/dev/null 2>&1 || { echo -e >&2 "Programm \e[40m\e[33mfping\e[49m\e[39m ist nicht installiert!  Bitte installieren."; exit 1; }
 echo -e "Programm \e[40m\e[33mfping\e[49m\e[39m ist vorhanden!"
 echo
 command -v nmap >/dev/null 2>&1 || { echo -e >&2 "Programm \e[40m\e[33mnmap\e[49m\e[39m ist nicht installiert!  Bitte installieren."; exit 1; }
 echo -e "Programm \e[40m\e[33mnmap\e[49m\e[39m  ist vorhanden!"
-
 echo ""
-echo "Welches Netzwerk soll gescannt werden (z.B. 192.168.1.0/24 oder 192.168.111.1/32 [Enter]): "
+echo ""
+echo -e "\e[4mWelches Netzwerk soll gescannt werden:\e[0m "
+echo "IPv4 - z.B. 192.168.1.0/24 oder 192.168.111.1/32 [Enter] "
+echo "IPv6 - e.g. 2a04:35c0:: oder 2001:0Db8:85a3:0000:8a2e:0370:7334 [Enter] "
 echo ""
 read  netw
-# check ob eine IP Adresse vorhanden ist und gültig
+# checke ob eine IP Adresse eingeben wurde
 if [[ -z $netw ]]; then
-	clear; echo ""; echo "Keine IP Adresse vorhanden, starte Script erneut....";sleep 3; exec "./IPventur-ger-pro.sh"
+	clear; echo ""; echo -e "\e[5m Keine IP Adresse vorhanden, starte Script erneut....\e[25m ";sleep 4; exec "./IPventur-ger-pro.sh"
 fi
+
+# checke ob die IP Adresse valide ist
 if [[ $netw =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/[0-9]{1,2}$ ]]; then
-	clear; echo ""; echo -e " \e[40m\e[33mValide IP Adresse\e[49m\e[39m "
+	clear; echo ""; echo -e " \e[40m\e[33mValide IPv4 Adresse\e[49m\e[39m "
+
+elif [[ $netw =~ ^([0-9a-fA-F]{0,4}:){1,7}[0-9a-fA-F]{0,4}$ ]]; then
+       clear; echo ""; echo -e " \e[40m\e[33mValide IPv6 Adresse\e[49m\e[39m "
+
 else
-	clear;  echo ""; echo "$netw ist keine valide IP Adresse/Subnet mask, starte script erneut....";sleep 3; exec "./IPventur-ger-pro.sh"
+	clear;  echo ""; echo -e "\e[5m $netw ist keine valide IPv4 oder IPv6 Adresse/Subnet mask, starte script erneut....\e[25m ";sleep 4; exec "./IPventur-ger-pro.sh"
 fi
+
 # Menü für Parameterübergabe an NMAP
 echo ""
-echo "*****************************"
-echo -e "* \e[44mIPventur-Deutsch Pro 1.4c\e[49m *"
-echo "*****************************"
+echo "----------------------------------------------------------------"
+echo "               ****************************"
+echo -e "               * \e[44mIPventur-Deutsch Pro 1.5\e[49m *"
+echo "               ****************************"
+echo "----------------------------------------------------------------"
 echo ""
+
 echo -e "Scanne Netzwerk: \e[40m\e[33m$netw\e[49m\e[39m "
 echo ""
 echo "wählen Sie eine NMAP Scan Version aus (1,2,3,4,5,6,7 [Enter]): "
@@ -57,22 +71,24 @@ clear
 echo ""
 case $n in
 # hier können die nmap Parameter geändert werden
-  1) echo " Auswahl: NMAP -A"; AUSWAHL="nmap -A";;
-  2) echo " Auswahl: NMAP -v -A -p1-65535"; AUSWAHL="nmap -v -A -p1-65535";;
-  3) echo " Auswahl: NMAP -6"; AUSWAHL="nmap -6";;
-  4) echo " Auswahl: NMAP -F -T5"; AUSWAHL="nmap -F -T5";;
-  5) echo "Auswahl: NMAP"; AUSWAHL="nmap";;
-  6) echo "Auswahl: NMAP -d9"; AUSWAHL="nmap -d9";;
-  7) echo -e "Auswahl: \e[40m\e[33mNMAP -sv --script\e[49m\e[39m "; echo ""; echo -e "Scanne Netzwerk: \e[40m\e[33m$netw\e[49m\e[39m ";echo "";read -p "Whelches Script soll benutzt werden (z.B vulners etc.)?  => " nms; AUSWAHL="nmap -sV --script $nms";;
-  *) echo "ungültige Auswahl, starte Script neu....";sleep 3; exec "./IPventur-ger-pro.sh";;
+  1) echo -e " Auswahl: \e[40m\e[33mNMAP -A\e[49m\e[39m "; AUSWAHL="nmap -A";;
+  2) echo -e " Auswahl: \e[40m\e[33mNMAP -v -A -p1-65535\e[49m\e[39m "; AUSWAHL="nmap -v -A -p1-65535";;
+  3) echo -e " Auswahl: \e[40m\e[33mNMAP -6\e[49m\e[39m "; AUSWAHL="nmap -6";;
+  4) echo -e " Auswahl: \e[40m\e[33mNMAP -F -T5\e[49m\e[39m "; AUSWAHL="nmap -F -T5";;
+  5) echo -e " Auswahl: \e[40m\e[33mNMAP\e[49m\e[39m "; AUSWAHL="nmap";;
+  6) echo -e " Auswahl: \e[40m\e[33mNMAP -d9\e[49m\e[39m "; AUSWAHL="nmap -d9";;
+  7) echo -e " Auswahl: \e[40m\e[33mNMAP -sv --script\e[49m\e[39m "; echo ""; echo -e "Scanne Netzwerk: \e[40m\e[33m$netw\e[49m\e[39m ";echo "";read -p "Whelches Script soll benutzt werden (z.B vulners etc.)?  => " nms; AUSWAHL="nmap -sV --script $nms";;
+  *) echo "": echo -e " \e[5mungültige Auswahl, starte Script neu....\e[25m ";sleep 4; exec "./IPventur-ger-pro.sh";;
 esac
 # Wähle das Ausgabeformat
-clear
 echo ""
-echo "*****************************"
-echo -e "* \e[44mIPventur-Deutsch Pro 1.4c\e[49m *"
-echo "*****************************"
+echo "----------------------------------------------------------------"
+echo "               ****************************"
+echo -e "               * \e[44mIPventur-Deutsch Pro 1.5\e[49m *"
+echo "               ****************************"
+echo "----------------------------------------------------------------"
 echo ""
+
 echo -e "Scanne Netzwerk: \e[40m\e[33m$netw\e[49m\e[39m"
 echo -e "NMAP Parameter:  \e[40m\e[33m$AUSWAHL\e[49m\e[39m"
 echo ""
@@ -87,23 +103,25 @@ echo ""
 echo "Hinweis: es werden zwei Ausgabedateien erstellt (Ausnahme Nr.5): eine mit Standard und eine mit Ihrer Wahl!"
 echo ""
 read n
+clear
 echo ""
 case $n in
 # here you can change the namp output parameters
-  1) echo " Auswahl: -oN",; AUSWAHL2="-oN";;
-  2) echo " Auswahl: -oS"; AUSWAHL2="-oS";;
-  3) echo " Auswahl: -oG"; AUSWAHL2="-oG";;
-  4) echo " Auswahl: -oX"; AUSWAHL2="-oX";;
-  5) echo " Auswahl: -oA"; AUSWAHL2="-oA";;
-  *) echo "ungültige Auswahl, starte Script neu....";sleep 3; exec "./IPventur-ger-pro.sh";;
+  1) echo -e " \e[40m\e[33mAuswahl: -oN\e[49m\e[39m "; AUSWAHL2="-oN";;
+  2) echo -e " \e[40m\e[33mAuswahl: -oS\e[49m\e[39m "; AUSWAHL2="-oS";;
+  3) echo -e " \e[40m\e[33mAuswahl: -oG\e[49m\e[39m "; AUSWAHL2="-oG";;
+  4) echo -e " \e[40m\e[33mAuswahl: -oX\e[49m\e[39m "; AUSWAHL2="-oX";;
+  5) echo -e " \e[40m\e[33mAuswahl: -oA\e[49m\e[39m "; AUSWAHL2="-oA";;
+  *) echo ""; echo -e " \e[5mungültige Auswahl, starte Script neu....\e[25m ";sleep 4; exec "./IPventur-ger-pro.sh";;
 esac
-clear
 echo ""
-echo "*****************************"
-echo -e "* \e[44mIPventur-Deutsch Pro 1.4c\e[49m *"
-echo "*****************************"
+echo "----------------------------------------------------------------"
+echo "               ****************************"
+echo -e "               * \e[44mIPventur-Deutsch Pro 1.5\e[49m *"
+echo "               ****************************"
+echo "----------------------------------------------------------------"
 echo ""
-echo ""
+
 echo -e "Scanne Netzwerk: 	\e[40m\e[33m$netw\e[49m\e[39m "
 echo -e "NMAP Parameter: 	\e[40m\e[33m$AUSWAHL\e[49m\e[39m "
 echo -e "Ausgabeformat:		\e[40m\e[33m$AUSWAHL2\e[49m\e[39m "
@@ -129,24 +147,29 @@ echo "Netzwerkbestand $datum / $netw" > lanliste-$netz-$datum2.txt
 echo "------------------------------------------------------------" >> lanliste-$netz-$datum2.txt
 echo "------------------------------------------------------------"
 echo "" >> lanliste-$netz-$datum2.txt
+
 # Scannen des Netztes und Ablage in Ergebnisdatei, fping stellt fest welche IP Online ist
 for k in $(fping -aq -g $netw); do
-	echo -e "wird untersucht: \e[40m\e[33m$k\e[49m\e[39m "
+	echo -e "wird untersucht...: \e[40m\e[33m$k\e[49m\e[39m "
 	echo "Aktiv: $k" >> lanliste-$netz-$datum2.txt
+
 # -n startet IP DNS Namen check und IP Adresse, -sP zeigt IP Adresse mit MAC Adresse und Hersteller ID
 	nmap -R -sP $k | awk '/Nmap scan report for/{printf $5" "$6;}/MAC Address:/{print " => "$3" "$4" "$5" "$6;}' | sort >> lanliste-$netz-$datum2.txt
+
 # -A zeigt mehr Informationen wie OS Version, Traceroute, welche Scripts laufen etc.
 	$AUSWAHL $k | grep -B1 open >> lanliste-$netz-$datum2.txt
+
 # zweiter nmap command mit gewähltem Ausgabeformat 
 	$AUSWAHL $k --append-output $AUSWAHL2 lanliste$AUSWAHL2-$netz-$datum2 >> lanliste-$netz-$datum2.txt
-	echo "---------------------------------------------------" >> lanliste-$netz-$datum2.txt
+echo "------------------------------------------------------------" >> lanliste-$netz-$datum2.txt
 echo >> lanliste-$netz-$datum2.txt
 done
-echo "-------------------------------------------------------"
-echo "                      E N D E" >> lanliste-$netz-$datum2.txt
+echo "------------------------------------------------------------"
+echo "                       E N D E" >> lanliste-$netz-$datum2.txt
+echo
 datum=$(date +%d.%m.%Y-%H:%M:%S)
 echo $datum >> lanliste-$netz-$datum2.txt
-echo "-------------------------------------------------------" >> lanliste-$netz-$datum2.txt
+echo "------------------------------------------------------------" >> lanliste-$netz-$datum2.txt
 echo Ende: $datum
 echo
 # Anzeige Ergebnisdatei
