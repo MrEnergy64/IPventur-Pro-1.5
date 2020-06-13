@@ -1,16 +1,19 @@
 #! /bin/bash
 # IPventur.sh Pro
 # recommend root rights, need fping and nmap
-# updated: 12.06.2020 MrEnergy64 origin: Linux-User
-# Version: 1.4c
+# updated: 13.06.2020 MrEnergy64 origin: Linux-User
+# Version: 1.5
 #
 clear
 # Add network which you like to scan
 echo ""
-echo "*****************************"
-echo -e "* \e[44mIPventur-English Pro 1.4c\e[49m *"
-echo "*****************************"
+echo "----------------------------------------------------------------"
+echo "               ****************************"
+echo -e "               * \e[44mIPventur-English Pro 1.5\e[49m *"
+echo "               ****************************"
+echo "----------------------------------------------------------------"
 echo ""
+
 # check if fping and nmap installed
 command -v fping >/dev/null 2>&1 || { echo -e >&2 "I require \e[40m\e[33mfping\e[49m\e[39m but it's not installed.  Please install."; exit 1; }
 echo -e "Program \e[40m\e[33mfping\e[49m\e[39m is installed!"
@@ -19,24 +22,37 @@ command -v nmap >/dev/null 2>&1 || { echo -e >&2 "I require \e[40m\e[33mnmap\e[4
 echo -e "Program \e[40m\e[33mnmap\e[49m\e[39m  is installed!"
 echo ""
 echo ""
-echo "Which network would you like to scan (e.g. 192.168.1.0/24 or 10.0.0.1/32 [Enter]): "
+echo -e "\e[4mWhich network would you like to scan:\e[0m "
+echo ""
+echo "IPv4 - e.g. 192.168.1.0/24 or 10.0.0.1/32 [Enter] "
+echo "IPv6 - e.g. 2a04:35c0:: or 2001:0Db8:85a3:0000:8a2e:0370:7334 [Enter] "
 echo ""
 read netw
-# check if entered IP exist and valid
+# check if entered IP exist
 if [[ -z $netw ]]; then
-	clear; echo ""; echo "no IP address, starting script again....";sleep 3; exec "./IPventur-eng-pro.sh"
+	clear; echo ""; echo -e "\e[5m no IP address, starting script again....\e[25m ";sleep 4; exec "./IPventur-eng-pro.sh"
 fi
+
+# check if entered a valid IPv4 or IPv6 address
 if [[ $netw =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/[0-9]{1,2}$ ]]; then
-	clear; echo ""; echo "Valid IP address"
+	clear; echo ""; echo -e " \e[40m\e[33mValid IPv4 address\e[49m\e[39m "
+
+elif [[ $netw =~ ^([0-9a-fA-F]{0,4}:){1,7}[0-9a-fA-F]{0,4}$ ]]; then
+       clear; echo ""; echo -e " \e[40m\e[33mValid IPv6 address\e[49m\e[39m "
+
 else
-	clear;  echo ""; echo "$netw is not a valid IP address/subnet mask, starting script again....";sleep 3; exec "./IPventur-eng-pro.sh"
+	clear;  echo ""; echo -e "\e[5m $netw is not a valid IPv4 or IPv6 address/subnet mask, starting script again....\e[25m ";sleep 4; exec "./IPventur-eng-pro.sh"
 fi
+
 # Menu to choice nmap parameters
 echo ""
-echo "*****************************"
-echo -e "* \e[44mIPventur-English Pro 1.4c\e[49m *"
-echo "*****************************"
+echo "----------------------------------------------------------------"
+echo "               ****************************"
+echo -e "               * \e[44mIPventur-English Pro 1.5\e[49m *"
+echo "               ****************************"
+echo "----------------------------------------------------------------"
 echo ""
+
 echo -e "Scan Network: \e[40m\e[33m$netw\e[49m\e[39m "
 echo ""
 echo "choice NMAP Scan Version (1,2,3,4,5,6,7 [Enter]): "
@@ -56,22 +72,24 @@ clear
 echo ""
 case $n in
 # here you can change the namp parameters
-  1) echo "Choice: NMAP -A"; CHOICE="nmap -A";;
-  2) echo "Choice: NMAP -v -A -p1-65535"; CHOICE="nmap -v -A -p1-65535";;
-  3) echo "Choice: NMAP -6"; CHOICE="nmap -6";;
-  4) echo "Choice: NMAP -F -R"; CHOICE="nmap -F -R";;
-  5) echo "Choice: NMAP"; CHOICE="nmap";;
-  6) echo "Choice: NMAP -d9"; CHOICE="nmap -d9";;
+  1) echo -e "Choice: \e[40m\e[33mNMAP -A\e[49m\e[39m "; CHOICE="nmap -A";;
+  2) echo -e "Choice: \e[40m\e[33mNMAP -v -A -p1-65535\e[49m\e[39m "; CHOICE="nmap -v -A -p1-65535";;
+  3) echo -e "Choice: \e[40m\e[33mNMAP -6\e[49m\e[39m "; CHOICE="nmap -6";;
+  4) echo -e "Choice: \e[40m\e[33mNMAP -F -R\e[49m\e[39m "; CHOICE="nmap -F -R";;
+  5) echo -e "Choice: \e[40m\e[33mNMAP\e[49m\e[39m "; CHOICE="nmap";;
+  6) echo -e "Choice: \e[40m\e[33mNMAP -d9\e[49m\e[39m "; CHOICE="nmap -d9";;
   7) echo -e "Choice: \e[40m\e[33m$NMAP -sv --script\e[49m\e[39m "; echo ""; echo -e "Scan Network: \e[40m\e[33m$netw\e[49m\e[39m ";echo "";read -p "Which script would you like to use (type e.g. vulners etc.) => " nms; CHOICE="nmap -sV --script $nms";;
-  *) echo "invalide option, starting script again....";sleep 3; exec "./IPventur-eng-pro.sh";;
+  *) echo ""; echo -e " \e[5minvalide option, starting script again....\e[25m ";sleep 4; exec "./IPventur-eng-pro.sh";;
 esac
 # Menu to choice output format
-clear
 echo ""
-echo "*****************************"
-echo -e "* \e[44mIPventur-English Pro 1.4c\e[49m *"
-echo "*****************************"
+echo "----------------------------------------------------------------"
+echo "               ****************************"
+echo -e "               * \e[44mIPventur-English Pro 1.5\e[49m *"
+echo "               ****************************"
+echo "----------------------------------------------------------------"
 echo ""
+
 echo -e "Scan Network: \e[40m\e[33m$netw\e[49m\e[39m "
 echo -e "NMAP Command: \e[40m\e[33m$CHOICE\e[49m\e[39m "
 echo ""
@@ -86,27 +104,28 @@ echo ""
 echo "Note: you will get two files (except no. 5): normal output and one whith your choice!"
 echo ""
 read n
+clear
 echo ""
 case $n in
 # here you can change the namp output parameters
-  1) echo " Choice: -oN"; CHOICE2="-oN";;
-  2) echo " Choice: -oS"; CHOICE2="-oS";;
-  3) echo " Choice: -oG"; CHOICE2="-oG";;
-  4) echo " Choice: -oX"; CHOICE2="-oX";;
-  5) echo " Choice: -oX"; CHOICE2="-oA";;
-  *) echo "invalide option, starting script again....";sleep 3; exec "./IPventur-eng-pro.sh";;
+  1) echo -e " Choice: \e[40m\e[33m-oN\e[49m\e[39m "; CHOICE2="-oN";;
+  2) echo -e " Choice: \e[40m\e[33m-oS\e[49m\e[39m "; CHOICE2="-oS";;
+  3) echo -e " Choice: \e[40m\e[33m-oG\e[49m\e[39m "; CHOICE2="-oG";;
+  4) echo -e " Choice: \e[40m\e[33m-oX\e[49m\e[39m "; CHOICE2="-oX";;
+  5) echo -e " Choice: \e[40m\e[33m-oX\e[49m\e[39m "; CHOICE2="-oA";;
+  *) echo ""; echo -e " \e[5minvalide option, starting script again.... \e[25m ";sleep 4; exec "./IPventur-eng-pro.sh";;
 esac
-clear
+echo ""
 echo "----------------------------------------------------------------"
+echo "               ****************************"
+echo -e "               * \e[44mIPventur-English Pro 1.5\e[49m *"
+echo "               ****************************"
 echo "----------------------------------------------------------------"
 echo ""
-echo "*****************************"
-echo -e "* \e[44mIPventur-English Pro 1.4c\e[49m *"
-echo "*****************************"
-echo
+
 echo -e "Scan Network:  \e[40m\e[33m$netw\e[49m\e[39m "
 echo -e "NMAP Command:  \e[40m\e[33m$CHOICE\e[49m\e[39m "
-echo -e  "Output Format: \e[40m\e[33m$CHOICE2\e[49m\e[39m "
+echo -e "Output Format: \e[40m\e[33m$CHOICE2\e[49m\e[39m "
 echo ""
 echo "Overview active network systems:"
 echo "(to get MAC addresses, you must be in the same net as root/sudo)"
