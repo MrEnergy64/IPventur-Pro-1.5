@@ -1,6 +1,6 @@
-# IPventur-Pro-1.4c
+# IPventur-Pro-1.5
 
-famous little IPventur-basic.sh tool, now with menu to choice nmap parameters incl. script, asking for the scan network and the various output files include scanned network and scanned date
+famous little IPventur-basic.sh tool, now with menu to choice nmap parameters incl. script, asking for the scan network and the various output files include scanned network and scanned date, IPv6 support
 
 1. download script file IPventur-eng-pro.sh (english version) or IPventur-ger-pro.sh (german version)
 2. chmod +x IPventur-eng-pro.sh (or chmod +x IPventur-ger-pro.sh)
