@@ -9,16 +9,16 @@ clear
 echo ""
 echo "----------------------------------------------------------------"
 echo "               ****************************"
-echo -e "               * \e[44mIPventur-English Pro 1.5\e[49m *"
+echo -e "               * \e[44mIPventur-English Pro 1.5\e[49m\e[39m *"
 echo "               ****************************"
 echo "----------------------------------------------------------------"
 echo ""
 
 # check if fping and nmap installed
-command -v fping >/dev/null 2>&1 || { echo -e >&2 "I require \e[40m\e[33mfping\e[49m\e[39m but it's not installed.  Please install."; exit 1; }
+command -v fping >/dev/null 2>&1 || { echo -e >&2 "I require \e[40m\e[33mfping\e[49m\e[39m but it's not installed.  Please install."; echo "" ; echo -e "Check Out: https://github.com/schweikert/fping"; exit 1; }
 echo -e "Program \e[40m\e[33mfping\e[49m\e[39m is installed!"
 echo
-command -v nmap >/dev/null 2>&1 || { echo -e >&2 "I require \e[40m\e[33mnmap\e[49m\e[39m but it's not installed.  Please install."; exit 1; }
+command -v nmap >/dev/null 2>&1 || { echo -e >&2 "I require \e[40m\e[33mnmap\e[49m\e[39m but it's not installed.  Please install."; echo "" ; echo "Check Out: https://github.com/nmap/nmap"; exit 1; }
 echo -e "Program \e[40m\e[33mnmap\e[49m\e[39m  is installed!"
 echo ""
 echo ""
