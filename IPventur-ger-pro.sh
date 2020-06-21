@@ -15,10 +15,10 @@ echo "----------------------------------------------------------------"
 echo ""
 
 # Überprüfe ob fping und nmap vorhanden ist
-echo command -v fping >/dev/null 2>&1 || { echo -e >&2 "Programm \e[40m\e[33mfping\e[49m\e[39m ist nicht installiert!  Bitte installieren."; exit 1; }
+echo command -v fping >/dev/null 2>&1 || { echo -e >&2 "Programm \e[40m\e[33mfping\e[49m\e[39m ist nicht installiert!  Bitte installieren."; echo "";echo "Check Out: https://github.com/schweikert/fping"; exit 1; }
 echo -e "Programm \e[40m\e[33mfping\e[49m\e[39m ist vorhanden!"
 echo
-command -v nmap >/dev/null 2>&1 || { echo -e >&2 "Programm \e[40m\e[33mnmap\e[49m\e[39m ist nicht installiert!  Bitte installieren."; exit 1; }
+command -v nmap >/dev/null 2>&1 || { echo -e >&2 "Programm \e[40m\e[33mnmap\e[49m\e[39m ist nicht installiert!  Bitte installieren."; echo "";echo "Check Out: https://github.com/nmap/nmap"; exit 1; }
 echo -e "Programm \e[40m\e[33mnmap\e[49m\e[39m  ist vorhanden!"
 echo ""
 echo ""
