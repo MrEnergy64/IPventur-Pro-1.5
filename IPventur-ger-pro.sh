@@ -61,7 +61,7 @@ echo -e "  \e[40m\e[33m2)\e[49m\e[39m NMAP -v -A -p1-65535	(größere Ausführli
 echo -e "  \e[40m\e[33m3)\e[49m\e[39m NMAP -6 			(Standard Scan mit IPv6)"
 echo -e "  \e[40m\e[33m4)\e[49m\e[39m NMAP -F -T5 		(schnellster Scan, aber nur Standard Ports)"
 echo -e "  \e[40m\e[33m5)\e[49m\e[39m NMAP ohne Parameter 	(Standard Scan mit offenen Ports)"
-echo -e "  \e[40m\e[33m6)\e[49m\e[39m NMAP -d9			(Debug mit höster Stufe, kann sehr lange dauern!)"
+echo -e "  \e[40m\e[33m6)\e[49m\e[39m NMAP -d9			(Debug mit höchster Stufe, kann sehr lange dauern!)"
 echo -e "  \e[40m\e[33m7)\e[49m\e[39m NMAP -sV --script 		(Scanne mit Script)"
 echo "				(Check wo die Scripts liegen (locate *.nse): ~/.nmap/scripts oder /usr/share/nmap/scripts)"
 echo "				(Update neue NSE NMAP Scripts: sudo nmap --script-updatedb)"
